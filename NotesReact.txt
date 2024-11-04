@@ -1,0 +1,188 @@
+
+- useCallback: Es un hook que se utiliza para almacenar en cache una funcion. Debido a que es hook, no se puede llamar en 
+  condicionales y solo al inicio del componente. Este hook se utiliza de la siguiente manera:
+
+  import { useCallback } from 'react';
+
+  const myCachedFunction = () => {
+    // Any functionality
+  }
+
+  const myFunction = useCallback((orderDetails) => {
+
+    myCachedFunction();
+
+  }, [dependencies...]);
+
+  El resultado de useCallback, es que cuando exista un nuevo renderizado, devolverá la misma funcion si sus dependencias no han cambiado. Si 
+  las dependencias cambiaron, devolverá una nueva instancia de la funcion. Podremos invocar la funcion donde querramos posteriormente.
+
+- useDebugValue: Es un hook que permite mostrar un valor personalizado a las variables en el estado de nuestra aplicacion. La forma de 
+  utilizarlo es la siguiente:
+
+  useDebugValue(value, formater);
+
+  value: Es la variable a la cual asignaremos la etiqueta.
+  formater: Es una funcion que recibe el valor de la variable y debe retornar un valor valido para la variable con un formato que nostros 
+  querramos especificar.
+
+- useDeferredValue: Es un hook que permite mantener un valor anterior de algun valor que le pasemos. Su forma de uso es la siguiente:
+
+    const deferredValue = useDeferredValue(currentValue);
+  
+  Entonces lo que sucederá es que react va a almacenar el ultimo valor o valor previo de la variable.
+
+  Ejemplo:
+
+  import { Suspense, useState } from 'react';
+  import SearchResults from './SearchResults.js';
+
+  export default function App() {
+    const [query, setQuery] = useState('');
+    return (
+      <>
+        <label>
+          Search albums:
+          <input value={query} onChange={e => setQuery(e.target.value)} />
+        </label>
+        <Suspense fallback={<h2>Loading...</h2>}>
+          <SearchResults query={query} />
+        </Suspense>
+      </>
+    );
+  }
+
+- useId: Este es un hook que permite crear identificadores unicos para los elementos html. Ejemplo de uso:
+
+    import { useId } from 'react';
+
+    const passwordInputId = useId();
+
+- useImperativeHandle: Este hook lo que permite es exponer metodos personalizados para manipular un nodo hijo del DOM desde un nodo padre.
+  La forma de utilizacion es la siguiente:
+
+  import { forwardRef, useImperativeHandle, useRef } from 'react';
+
+  const MyElement = forwardRef((props, myPublicRef) => {
+
+    const myPrivateRef = useRef(null);
+
+    useImperativeHandle(myPublicRef, () => {
+        return {
+            changeHtmlContent = (newHtmlContent) => {
+                myPrivateRef.current.innerHTML = newHtmlContent;
+            }
+            otherMethod = () => {
+                ...
+            }
+        }
+    }, [dependency1, dependency2])
+
+    return (
+        <div {...props} ref={myPrivateRef}>Element</div>
+    );
+  });
+
+  export default MyElement;
+
+  .................................................
+  import { useRef } from 'react';
+  import MyElement from './MyElement.js';
+
+  const ParentElement = () => {
+
+    const myRef = useRef(null);
+
+    const onHandleClickEvent = () => {
+        myRef.current.changeHtmlContent('Nuevo valor de mi elemento');
+    }
+
+    return (
+        <>
+            <MyElement ref={myRef}/>
+            <button onClick={onHandleClickEvent}></button>
+        </>
+    );
+
+  }
+
+- useMemo: Es un hook que permite almacenar en cache resultados calculados entre renders. React llama a la funcion que le pasamos como primer 
+  argumento. React va a llamar a la funcion durante el render inicial. En los renders posteriores, React devolvera el mismo valor nuevamente 
+  si las dependencias no han cambiado. Ejemplo de uso:
+
+  import { useMemo } from 'react';
+
+  export const MyComponent(){
+  
+  const visibleTodos = useMemo(() => {
+    filterTodos(todos, tab)
+  }, [dependencies]);
+    
+  }
+
+  Este hook devuelve el resultado del calculo realizado.
+
+- useInsertionEffect: https://react.dev/reference/react/useInsertionEffect 
+
+- Refs en React: Debido a que React crea un DOM virtual, no se puede acceder a los nodos del DOM como se haria 
+  con JavaScript nativo. Por lo que para poder manipular los elementos el DOM virtual podemos hacer uso del
+  hook useRef. Ejemplo:
+  
+  import { useRef } from 'react';
+
+  export Form = () => {
+
+    const myElement = useRef(null);
+
+    const onHandleClick = () => {
+        myElement.current.innerHTML = 'Este es el nuevo valor de mi elemento';
+    }
+
+    return(
+        <>
+            <div ref={myElement}>Hola desde mi componente</div>
+            <button onClick={onHandleClick}>Change the value of my div</button>
+        </>
+    );
+
+  }
+
+- forwardRef: Es una funcion utilizada para pasar una referencia de un nodo padre a un nodo hijo. Esto es util cuando necesitamos manipular un 
+  elemento hijo desde el padre. La forma en la que se utiliza es la siguiente:
+
+  import { useRef } from 'react';
+  import MyInput from 'MyInput.js';
+
+  const FormField = () => {
+
+    const myRef = useRef(null);
+
+    const onHandleClickEvent = () => {
+        myRef.current.innerHTML = 'Nuevo contenido HTML';
+    }
+
+    return (
+        <>
+            <MyInput ref={myRef} prop1={'prop1'} prop2={'prop2'}/>
+            <button onClick={onHandleClickEvent}>Presionar</button>
+        </>
+    );
+  }
+
+  export default FormField;
+
+  import { forwardRef } from 'react';
+
+  const MyInput = forwardRef((props, forwardedRef) => {
+
+    const [prop1, prop2] = props;
+
+    return (
+        <p ref={forwardedRef}>My child element. {prop1} {prop2}</p>
+    );
+  })
+
+  export default MyInput;
+  
+- Canary channel: El canal Canary es utilizado para que React tenga una ultima version con actualizaciones en la libreria como prereleases. Esta 
+  rama es una posible candidata para ser el ultimo canal o la ultima release de React.

@@ -1,0 +1,13 @@
+- En TypeScript existe tambien el operador ! para convertir un 
+  posible valor nulo en no nullable.
+
+- Tipos primitivos en TypeScript: Los tipos primitivos son tipos
+  de datos que soporta TypeScript de forma nativa. Estos son:
+    - number
+    - string
+    - boolean
+    - null
+    - undefined
+
+- En TypeScript existen types e interfaces que son eñ equivalente 
+  a crear una clase.

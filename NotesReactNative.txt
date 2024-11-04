@@ -1,0 +1,13 @@
+
+
+* Para desarrollo movil se tienen distintas tecnologias para crear aplicaciones. Para android tenemos Kotlin y para IOS tenemos Swift. Estas tecnologias crean vistas moviles 
+  para sus respectivas plataformas. Ahora bien, React Native en tiempo de ejecucion genera las vistas para Android y para IOS. React Native tiene componentes que llama nativos, 
+  los cuales son componentes que estan prefabricados por ellos y sirven apra armar aplicaciones. 
+* Algunos de los componentes que tenemos son <TextInput> <ScrollView> o <Image>
+* Para tener una seccion de scroll tenemos las opciones de <ScrollView></ScrollView> y <FlatList></FlatList>, la diferencia es que el primero carga todos los elementos de una vez 
+  y la segunda los carga cuando estan apunto de ser mostrados, lo cual puede mejorar el rendimiento. Para el primero tenemos que limitar la altura de la vista para que tenga area 
+  de scroll.
+* El elemento <ActivityIndicator></ActivityIndicator> es utilizado para crear un loading.
+* Tenemos un componente para crear botones llamado <Button></Button>, pero no es recomendado por React Native debido a que no se puede personalizar. Si se desea personalizar, 
+  tenemos el componente <Pressable></Pressable>
+* 

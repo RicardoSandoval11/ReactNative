@@ -1,0 +1,19 @@
+
+
+* Para aplicar animaciones en React Native, se puede hacer de la siguiente manera:
+
+const animatedOpacity = useRef( new Animated.Value(0) ).current;
+
+const fadeIn = () => {
+    Animated.timing(animatedOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true
+    }).start(() => console.log('Animation ended'));
+}
+
+<Animated.View
+    styles={{
+        opacity: animatedOpacity
+    }}
+/>
